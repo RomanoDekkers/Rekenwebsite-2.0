@@ -58,20 +58,20 @@ class User
 
     public function login($Voornaam, $Wachtwoord)
     {
-        // Check the database to see if there is a user with the given username and password
-        $stmt = $this->mysqli->prepare("SELECT COUNT(*) as user_count FROM gebruikers WHERE Voornaam = ? AND Wachtwoord = ?");
-        $stmt->bind_param("si", $Voornaam, $Wachtwoord);
-        $stmt->execute();
-        $result = $stmt->get_result(); // Bind the result to a new variable
-        $user = $result->fetch_assoc(); // Fetch the first row as an associative array
+        // Prepare the query to select the user with the given username and password
+        $stmt = $this->mysqli->prepare("SELECT * FROM gebruikers WHERE Voornaam = ? AND Wachtwoord = ?");
+        $stmt->bind_param("ss", $Voornaam, $Wachtwoord); // Bind the provided username and password to the query
+        $stmt->execute(); // Execute the query
+        $result = $stmt->get_result(); // Store the result of the query
+        $user = $result->fetch_assoc(); // Fetch the first row of the result
         $stmt->close(); // Close the statement
 
-        // If the user was found, return true
-        if ($user['user_count'] > 0) {
+        // If the query returned a user, return true
+        if ($user) {
             return true;
         }
 
-        // If the user was not found, return false
+        // If the query did not return a user, return false
         return false;
     }
 }

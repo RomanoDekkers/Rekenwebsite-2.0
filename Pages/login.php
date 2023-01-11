@@ -6,7 +6,10 @@ session_start();
 $gebruiker =  new user($mysqli);
 
 if (isset($_POST['Login'])) {
-    if ($gebruiker->login($_POST['Voornaam'], $_POST['Wachtwoord'])) {
+    $voornaam = $_POST['Voornaam'];
+    $wachtwoord = $_POST['Wachtwoord'];
+
+    if ($gebruiker->login($voornaam, $wachtwoord)) {
         $_SESSION['Voornaam'] = $_POST['Voornaam'];
         echo "<script type='text/javascript'> window.location.href='filter.php'</script>";
     } else {

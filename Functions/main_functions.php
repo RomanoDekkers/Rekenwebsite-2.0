@@ -6,6 +6,13 @@ class User
     private $mysqli;
     public $query;
 
+    var $ID;
+    var $Voornaam;
+    var $Achternaam;
+    var $Groep;
+    var $Wachtwoord;
+    var $Rechten;
+
     // Constructor
     public function __construct($mysqli)
     {
@@ -68,6 +75,12 @@ class User
 
         // If the query returned a user, return true
         if ($user) {
+            $this->ID = $user['ID'];
+            $this->Voornaam = $user['Voornaam'];
+            $this->Achternaam = $user['Achternaam'];
+            $this->Groep = $user['Groep'];
+            $this->Wachtwoord = $user['Wachtwoord'];
+            $this->Rechten = $user['Rechten'];
             return true;
         }
 

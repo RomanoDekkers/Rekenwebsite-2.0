@@ -10,7 +10,14 @@ if (isset($_POST['Login'])) {
     $wachtwoord = $_POST['Wachtwoord'];
 
     if ($gebruiker->login($voornaam, $wachtwoord)) {
-        $_SESSION['Voornaam'] = $_POST['Voornaam'];
+        $_SESSION['ID'] = $gebruiker->ID;
+        $_SESSION['Voornaam'] = $gebruiker->Voornaam;
+        $_SESSION['Achternaam'] = $gebruiker->Achternaam;
+        $_SESSION['Groep'] = $gebruiker->Groep;
+        $_SESSION['Wachtwoord'] = $gebruiker->Wachtwoord;
+        $_SESSION['Rechten'] = $gebruiker->Rechten;
+
+        $_SESSION['Ingelogd'] = "True";
         echo "<script type='text/javascript'> window.location.href='filter.php'</script>";
     } else {
         echo "Er ging iets fout!";

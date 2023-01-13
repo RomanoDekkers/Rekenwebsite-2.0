@@ -5,6 +5,11 @@ include '../Assets/layout.php';
 session_start();
 $user = new User($mysqli);
 $groepen = $user->read("gebruikers");
+$zoekresultaat['Groep'] = '';
+
+if (empty($_SESSION["Ingelogd"]) || $_SESSION['Rechten'] != 0) {
+    header("Location: login.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +29,12 @@ $groepen = $user->read("gebruikers");
         <?php
         if (isset($_POST['Search']) && !empty($_POST['Read'])) {
             $zoekresultaat = $user->filtersearch("gebruikers", "Groep", $_POST['Read']);
-            foreach ($zoekresultaat as $search) {
-                echo '<option value="' . $search['ID'] . '">' . $search['Voornaam'] . " " . $search['Achternaam'] . " " . $search['Groep'] .  '</option>';
+            if (count($zoekresultaat) === 0) {
+                echo '<br /> Geen zoekresultaten <br />';
+            } else {
+                foreach ($zoekresultaat as $search) {
+                    echo '<option value="' . $search['ID'] . '">' . $search['Voornaam'] . " " . $search['Achternaam'] . " " . $search['Groep'] .  '</option>';
+                }
             }
         } else {
             foreach ($groepen as $users) {
@@ -33,9 +42,9 @@ $groepen = $user->read("gebruikers");
             }
         }
         echo $_SESSION['Voornaam'];
-        echo $_SESSION['Wachtwoord'];
-        unset($_SESSION['Voornaam']);
-        unset($_SESSION['Wachtwoord']);
+        echo $_SESSION['ID'];
+        var_dump($_SESSION['Voornaam']);
+        // session_destroy();
         ?>
     </form>
 </body>
